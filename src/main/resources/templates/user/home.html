@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Coffee Shop - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f5f0;
+        }
+        nav {
+            background-color: #5c4033; /* coffee brown */
+            padding: 10px 20px;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        header {
+            text-align: center;
+            padding: 50px;
+        }
+        header h1 {
+            color: #5c4033;
+        }
+        section {
+            text-align: center;
+            padding: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #a97155;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #8b5a3c;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/user/home">Home</a></li>
+            <li><a href="/menu">Menu</a></li>
+            <li><a href="/order">Order</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <li style="color:white;">Welcome, <b th:text="${username}"></b></li>
+
+        <h1>Welcome to Coffee Shop!</h1>
+        <p>Your perfect cup, every time ☕</p>
+        <a href="/menu" class="btn">View Menu</a>
+    </header>
+
+    <section>
+        <h2>Today's Special</h2>
+        <p>Try our new Caramel Macchiato with a rich, smooth flavor.</p>
+    </section>
+</body>
+</html>
