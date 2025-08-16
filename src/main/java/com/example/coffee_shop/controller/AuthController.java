@@ -87,19 +87,7 @@ public String login(@ModelAttribute("user") User user, Model model, HttpSession 
         return "user/home"; 
     }
 
-    //Admin users
-    @GetMapping("admin/dashboard")
-    public String adminDashboard(HttpSession session) {
-        User loggedUser = (User) session.getAttribute("loggedUser");
-        if(loggedUser == null){
-            return "redirect:/login";
-        }
-        if(loggedUser.getRole() != 1){
-            return "redirect:/access-denied";
-        }
-
-        return "admin/dashboard";
-    }
+  
 
     @GetMapping("/logout")
 public String logout(HttpSession session) {
