@@ -2,6 +2,7 @@ package com.example.coffee_shop.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "coffee")
@@ -18,7 +19,7 @@ public class Coffee {
     private String description;
 
     @Column(nullable = false, precision = 10, scale = 2)
-    private double price;
+    private BigDecimal price; // ✅ BigDecimal type
 
     @Column(nullable = false)
     private int stock;
@@ -26,14 +27,20 @@ public class Coffee {
     @Column(name = "created_at", updatable = false, insertable = false)
     private LocalDateTime createdAt;
 
-    // Constructors
-    public Coffee() {}
+    @Column(length = 255)
+    private String image;
 
-    public Coffee(String name, String description, double price, int stock) {
+    // Constructors
+    public Coffee() {
+    }
+
+    public Coffee(String name, String description, BigDecimal price, int stock, String image) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
+        this.image = image;
+
     }
 
     // Getters and Setters
@@ -61,11 +68,11 @@ public class Coffee {
         this.description = description;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() { // ✅ return BigDecimal, not double
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) { // ✅ accept BigDecimal
         this.price = price;
     }
 
@@ -83,5 +90,13 @@ public class Coffee {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Coffee - Admin</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background-color: #2c3e50;
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 20px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #34495e;
+            border-radius: 4px;
+        }
+
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .form-container {
+            background: #fff;
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn-submit {
+            padding: 10px 20px;
+            background: #27ae60;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background: #219150;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 15px;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>Admin</h2>
+        <ul>
+            <li><a href="/admin/dashboard">Dashboard</a></li>
+            <li><a href="/admin/products">Manage Products</a></li>
+            <li><a href="/admin/orders">Manage Orders</a></li>
+            <li><a href="/admin/reports">Reports</a></li>
+        </ul>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h1>Add New Coffee</h1>
+        </header>
+
+        <div class="form-container">
+            <h2>Coffee Details</h2>
+            <form th:action="@{/products/save}" th:object="${coffee}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Coffee Name</label>
+                    <input type="text" id="name" th:field="*{name}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" th:field="*{description}" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price (₱)</label>
+                    <input type="number" id="price" th:field="*{price}" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="stock">Stock</label>
+                    <input type="number" id="stock" th:field="*{stock}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="createdAt">Created At</label>
+                    <input type="datetime-local" id="createdAt" th:field="*{createdAt}">
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Upload Image</label>
+                    <input type="file" name="imageFile" accept="image/*">
+
+                </div>
+
+                <button type="submit" class="btn-submit">Save Coffee</button>
+            </form>
+            <a href="/admin/products" class="btn-back">← Back to Products</a>
+        </div>
+    </div>
+</body>
+
+</html>
