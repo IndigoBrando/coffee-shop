@@ -178,9 +178,10 @@
                     <td th:text="${coffee.stock}"></td>
                     <td th:text="${coffee.createdAt}"></td>
                     <td class="actions">
-                        <a th:href="@{'/products/edit/' + ${coffee.id}}">Edit</a>
-                        <a th:href="@{'/products/delete/' + ${coffee.id}}"
-                            onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                        <a th:href="@{'/admin/products/edit/' + ${coffee.id}}">Edit</a>
+                      <a th:href="@{/products/delete/{id}(id=${coffee.id})}"
+   onclick="return confirm('Are you sure?')">Delete</a>
+
                     </td>
                 </tr>
             </tbody>
