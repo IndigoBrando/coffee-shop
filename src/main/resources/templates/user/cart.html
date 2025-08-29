@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f5f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #5c4033;
+            padding: 10px 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #5c4033;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #a97155;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1ece6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #a97155;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #8b5a3c;
+        }
+
+        .total {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #5c4033;
+        }
+
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .actions a button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/user/home">Home</a></li>
+            <li><a href="/menu">Menu</a></li>
+            <li><a href="/cart">My Cart 🛒</a></li>
+            <li><a href="/order">My Orders</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Your Cart 🛒</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Coffee</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${cartItems}">
+                    <td th:text="${item.coffee.name}"></td>
+                    <td>₱ <span th:text="${item.coffee.price}"></span></td>
+                    <td>
+                        <form th:action="@{'/cart/update/' + ${item.id}}" method="post" style="display:inline-flex; gap:5px;">
+                            <input type="number" name="quantity" th:value="${item.quantity}" min="1" style="width:50px; text-align:center;">
+                            <button type="submit" class="btn">Update</button>
+                        </form>
+                    </td>
+                    <td>₱ <span th:text="${item.subtotal}"></span></td>
+                    <td>
+                        <form th:action="@{'/cart/remove/' + ${item.id}}" method="post">
+                            <button type="submit" class="btn">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="total">
+            Total: ₱ <span th:text="${total}"></span>
+        </div>
+
+        <div class="actions">
+            <a href="/order/checkout"><button class="btn">Checkout ✅</button></a>
+            <a href="/menu"><button class="btn">Continue Shopping ☕</button></a>
+        </div>
+    </div>
+</body>
+</html>

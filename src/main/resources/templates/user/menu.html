@@ -134,6 +134,7 @@
         <ul>
             <li><a href="/user/home">Home</a></li>
             <li><a href="/menu">Menu</a></li>
+            <li><a href="/cart">My Cart 🛒</a></li>
             <li><a href="/order">My Orders</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
@@ -153,8 +154,8 @@
                 <p th:if="${coffee.stock == 0}" class="unavailable">Unavailable</p>
 
                 <!-- Show order form only if stock > 0 -->
-                <form th:if="${coffee.stock > 0}" action="/order/add" method="post">
-                     <input type="hidden" name="userId" value="1" />
+                <form th:if="${coffee.stock > 0}" action="/cart/add" method="post"> <!-- ✅ changed -->
+                    <input type="hidden" name="userId" value="1" />
                     <input type="hidden" name="coffeeId" th:value="${coffee.id}">
                     <label>Quantity:</label>
                     <div class="quantity-control">
@@ -162,7 +163,7 @@
                         <input type="number" name="quantity" min="1" th:attr="max=${coffee.stock}" value="1" readonly>
                         <button type="button" onclick="this.previousElementSibling.stepUp()">+</button>
                     </div>
-                    <button type="submit" class="btn">Order Now</button>
+                    <button type="submit" class="btn">Add to Cart 🛒</button> <!-- ✅ changed text -->
                 </form>
             </div>
         </div>
