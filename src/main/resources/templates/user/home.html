@@ -19,9 +19,11 @@
             margin: 0;
             padding: 0;
             display: flex;
+            align-items: center;
         }
         nav ul li {
             margin-right: 20px;
+            color: white;
         }
         nav ul li a {
             color: white;
@@ -31,28 +33,59 @@
         nav ul li a:hover {
             text-decoration: underline;
         }
+
+        /* HERO SECTION */
         header {
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1515442261605-cd4ce9a0462f') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 50px;
+            color: white;
+            position: relative;
+        }
+        header::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); /* dark overlay for readability */
+        }
+        header h1, header p, header a, header li {
+            position: relative;
+            z-index: 1;
         }
         header h1 {
-            color: #5c4033;
+            font-size: 3rem;
+            margin-bottom: 10px;
         }
-        section {
-            text-align: center;
-            padding: 20px;
+        header p {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
         }
         .btn {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 12px 25px;
             background-color: #a97155;
             color: white;
             text-decoration: none;
             border-radius: 5px;
-            margin-top: 10px;
+            font-size: 1rem;
+            transition: background 0.3s;
         }
         .btn:hover {
             background-color: #8b5a3c;
+        }
+
+        section {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        section h2 {
+            color: #5c4033;
+            font-size: 2rem;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -64,12 +97,11 @@
             <li><a href="/order">Order</a></li>
             <li><a href="/about">About Us</a></li>
             <li><a href="/logout">Logout</a></li>
+            <li style="margin-left:auto;">Welcome, <b th:text="${username}"></b></li>
         </ul>
     </nav>
 
     <header>
-        <li style="color:white;">Welcome, <b th:text="${username}"></b></li>
-
         <h1>Welcome to Coffee Shop!</h1>
         <p>Your perfect cup, every time ☕</p>
         <a href="/menu" class="btn">View Menu</a>
