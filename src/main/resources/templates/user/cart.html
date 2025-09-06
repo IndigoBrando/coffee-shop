@@ -114,7 +114,7 @@
             <li><a href="/user/home">Home</a></li>
             <li><a href="/menu">Menu</a></li>
             <li><a href="/cart">My Cart 🛒</a></li>
-           <li><a th:href="@{/menu/order}">My Orders</a></li>
+            <li><a th:href="@{/menu/order}">My Orders</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
@@ -159,10 +159,11 @@
         </div>
 
         <div class="actions">
-            <form action="/cart/checkout" method="post" style="display:inline;">
+            <form action="/cart/checkout" method="post" style="display:inline;"
+                onsubmit="return confirm('Are you sure you want to checkout?');">
                 <button type="submit" class="btn">Checkout ✅</button>
             </form>
-            <a href="/menu"><button class="btn">Continue Shopping ☕</button></a>
+
         </div>
 
     </div>

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.coffee_shop.service.CartService;
 import com.example.coffee_shop.service.OrderService;
 
+import jakarta.servlet.http.HttpSession;
+import com.example.coffee_shop.model.User;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
@@ -20,23 +22,35 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
+    @Autowired
+    private OrderService orderService;
+
     // View cart
     @GetMapping
-    public String viewCart(Model model, Principal principal) {
-        Long userId = 1L; // replace later with real logged-in user
+    public String viewCart(Model model, HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
+
+        Long userId = loggedUser.getId();
         List<CartItem> cartItems = cartService.getCartItems(userId);
         BigDecimal total = cartService.calculateTotal(userId);
 
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("total", total);
         return "user/cart";
-
     }
 
     // Add to cart
     @PostMapping("/add")
-    public String addToCart(@RequestParam Long coffeeId, @RequestParam int quantity, Principal principal) {
-        Long userId = 1L;
+    public String addToCart(@RequestParam Long coffeeId, @RequestParam int quantity, HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
+
+        Long userId = loggedUser.getId();
         cartService.addToCart(userId, coffeeId, quantity);
         return "redirect:/cart";
     }
@@ -55,14 +69,16 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    @Autowired
-    private OrderService orderService;
-
+    // Checkout
     @PostMapping("/checkout")
-    public String checkout(Principal principal) {
-        Long userId = 1L; // replace with real logged-in user
-        orderService.checkout(userId);
-        return "redirect:/order"; // show orders page
-    }
+    public String checkout(HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
 
+        Long userId = loggedUser.getId();
+        orderService.checkout(userId);
+    return "redirect:/menu/order"; // now goes to /menu/order
+    }
 }

@@ -46,14 +46,14 @@ public class OrderController {
             throw new RuntimeException("Not enough stock available!");
         }
 
-        // create new order
+        
         Order order = new Order();
-        order.setUserId(userId); // ✅ camelCase
+        order.setUserId(userId); 
         order.setOrderDate(LocalDateTime.now());
         order.setStatus("PENDING");
         orderRepository.save(order);
 
-        // create order item
+      
         BigDecimal price = coffee.getPrice();
         BigDecimal subtotal = price.multiply(BigDecimal.valueOf(quantity));
 
@@ -65,18 +65,17 @@ public class OrderController {
         orderItem.setSubtotal(subtotal);
         orderItemRepository.save(orderItem);
 
-        // update order total
-        order.setTotalAmount(subtotal); // ✅ camelCase
+       
+        order.setTotalAmount(subtotal); 
         orderRepository.save(order);
 
-        // reduce stock
+  
         coffee.setStock(coffee.getStock() - quantity);
         coffeeRepository.save(coffee);
 
         return "redirect:/menu";
     }
 
-    // ✅ Checkout all items in cart → create order
     @PostMapping("/checkout")
     public String checkout(@RequestParam Long userId) {
         List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
@@ -87,10 +86,10 @@ public class OrderController {
 
         // create new order
         Order order = new Order();
-        order.setUserId(userId); // ✅ camelCase
+        order.setUserId(userId); 
         order.setOrderDate(LocalDateTime.now());
         order.setStatus("PENDING");
-        order.setTotalAmount(BigDecimal.ZERO); // ✅ camelCase
+        order.setTotalAmount(BigDecimal.ZERO);
         orderRepository.save(order);
 
         BigDecimal total = BigDecimal.ZERO;
@@ -110,18 +109,15 @@ public class OrderController {
 
             total = total.add(subtotal);
 
-            // update stock
             coffee.setStock(coffee.getStock() - qty);
             coffeeRepository.save(coffee);
         }
 
-        // update order total
-        order.setTotalAmount(total); // ✅ camelCase
+        order.setTotalAmount(total); 
         orderRepository.save(order);
 
-        // clear cart
         cartItemRepository.deleteAll(cartItems);
 
-        return "redirect:/menu/order-history?userId=" + userId; // ✅ redirect to order history
+        return "redirect:/menu/order-history?userId=" + userId;
     }
 }
