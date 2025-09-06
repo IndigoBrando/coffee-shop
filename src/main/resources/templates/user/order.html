@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>My Cart</title>
+    <title>My Orders</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,8 +58,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        th,
-        td {
+        th, td {
             padding: 15px;
             text-align: center;
             border-bottom: 1px solid #ddd;
@@ -83,6 +81,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            text-decoration: none;
         }
 
         .btn:hover {
@@ -101,71 +100,56 @@
             margin-top: 20px;
             text-align: center;
         }
-
-        .actions a button {
-            margin: 5px;
-        }
     </style>
 </head>
-
 <body>
     <nav>
         <ul>
             <li><a href="/user/home">Home</a></li>
             <li><a href="/menu">Menu</a></li>
             <li><a href="/cart">My Cart 🛒</a></li>
-           <li><a th:href="@{/menu/order}">My Orders</a></li>
+            <li><a th:href="@{/menu/order}">My Orders</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <h1>Your Cart 🛒</h1>
+        <h1>My Orders</h1>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Coffee</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="item : ${cartItems}">
-                    <td th:text="${item.coffee.name}"></td>
-                    <td>₱ <span th:text="${item.coffee.price}"></span></td>
-                    <td>
-                        <form th:action="@{'/cart/update/' + ${item.id}}" method="post"
-                            style="display:inline-flex; gap:5px;">
-                            <input type="number" name="quantity" th:value="${item.quantity}" min="1"
-                                style="width:50px; text-align:center;">
-                            <button type="submit" class="btn">Update</button>
-                        </form>
-                    </td>
-                    <td>₱ <span th:text="${item.subtotal}"></span></td>
-                    <td>
-                        <form th:action="@{'/cart/remove/' + ${item.id}}" method="post">
-                            <button type="submit" class="btn">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Show message if no orders -->
+        <div th:if="${orders.isEmpty()}">
+            <div class="alert alert-info">You have no orders yet.</div>
+        </div>
 
-        <div class="total">
-            Total: ₱ <span th:text="${total}"></span>
+        <!-- Loop through orders -->
+        <div th:each="order : ${orders}" style="margin-bottom: 30px;">
+            <h3>Order #<span th:text="${order.id}"></span> - <span th:text="${order.status}"></span></h3>
+            <p><strong>Date:</strong> <span th:text="${order.orderDate}"></span></p>
+            <p><strong>Total:</strong> ₱<span th:text="${order.totalAmount}"></span></p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Coffee</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${order.items}">
+                        <td th:text="${item.coffee.name}"></td>
+                        <td>₱<span th:text="${item.coffee.price}"></span></td>
+                        <td th:text="${item.quantity}"></td>
+                        <td>₱<span th:text="${item.subtotal}"></span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="actions">
-            <form action="/cart/checkout" method="post" style="display:inline;">
-                <button type="submit" class="btn">Checkout ✅</button>
-            </form>
-            <a href="/menu"><button class="btn">Continue Shopping ☕</button></a>
+            <a href="/menu" class="btn">Back to Menu</a>
         </div>
-
     </div>
 </body>
-
 </html>

@@ -5,15 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-// Order.java
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -22,25 +15,30 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long user_id;    
+    @Column(name = "user_id")   // DB column = user_id
+    private Long userId;        // Java field = userId ✅
+
     private LocalDateTime orderDate;
-    private BigDecimal total_amount;
+
+    @Column(name = "total_amount") // DB column = total_amount
+    private BigDecimal totalAmount; // Java field = totalAmount ✅
+
     private String status;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
 
-    // getters and setters
+    // --- getters and setters ---
     public Long getId() {
         return id;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public LocalDateTime getOrderDate() {
@@ -51,12 +49,12 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public BigDecimal getTotal_amount() {
-        return total_amount;
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setTotal_amount(BigDecimal total_amount) {
-        this.total_amount = total_amount;
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public String getStatus() {

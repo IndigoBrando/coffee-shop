@@ -1,4 +1,5 @@
 package com.example.coffee_shop.controller;
+
 import com.example.coffee_shop.model.CartItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,11 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.example.coffee_shop.service.CartService;
-
+import com.example.coffee_shop.service.OrderService;
 
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
+
 @Controller
 @RequestMapping("/cart")
 public class CartController {
@@ -52,4 +54,15 @@ public class CartController {
         cartService.updateCartItem(id, quantity);
         return "redirect:/cart";
     }
+
+    @Autowired
+    private OrderService orderService;
+
+    @PostMapping("/checkout")
+    public String checkout(Principal principal) {
+        Long userId = 1L; // replace with real logged-in user
+        orderService.checkout(userId);
+        return "redirect:/order"; // show orders page
+    }
+
 }

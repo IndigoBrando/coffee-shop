@@ -95,7 +95,8 @@
             <li><a href="/user/home">Home</a></li>
             <li><a href="/menu">Menu</a></li>
              <li><a href="/cart">My Cart 🛒</a></li>
-            <li><a href="/order">My Orders</a></li>
+           <li><a th:href="@{/menu/order}">My Orders</a></li>
+
             <li><a href="/about">About Us</a></li>
             <li><a href="/logout">Logout</a></li>
             <li style="margin-left:auto;">Welcome, <b th:text="${username}"></b></li>
